@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    background: darkgray;
+}
+
+header {
+    height: 170px;
+    background: gray;
+}
+
+img {
+    height: 120px;
+    width: 120px;
+}
+
+a {
+    display: block;
+    border: red solid 1px;
+}
