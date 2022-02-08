@@ -12,8 +12,8 @@ img {
     height: 120px;
     width: 120px;
 }
-
-a {
-    display: block;
-    border: red solid 1px;
+/*
+section {
+    border: 1px solid red;
 }
+
