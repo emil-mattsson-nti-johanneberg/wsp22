@@ -17,6 +17,10 @@ get('/nyheter') do
     slim(:"albums/index",locals:{nyheter:result})
 end
 
+get('/kontakt') do
+    slim(:contact)
+end
+
 get('/showlogin') do
     slim(:login)
 end
@@ -27,6 +31,9 @@ post('/login') do
     db = SQLite3::Database.new('db/')
     db.results_as_hash = true
     result = db.execute("SELECT * FROM users WHERE username = ?",username).first
+    if result.empty?
+      redirect('/error')
+    end
     pwdigest = result["pwdigest"]
     id = result["id"]
   
