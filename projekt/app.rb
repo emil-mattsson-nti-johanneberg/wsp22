@@ -25,6 +25,14 @@ get('/showlogin') do
     slim(:login)
 end
 
+get('/profile') do
+    slim(:profile)
+end
+
+get('/register') do
+  slim(:register)
+end
+
 post('/login') do
     username = params[:username]
     password = params[:password]
@@ -47,6 +55,7 @@ end
 
 
 get('/documents') do
+    slim(:documents)
 end
 
 
@@ -66,4 +75,8 @@ post('/users/new') do
       #felhantering
       "lösenordet är fel"
     end
+end
+
+get('/documenttingz/new') do
+  slim(:"documenttingz/new")
 end
