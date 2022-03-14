@@ -18,7 +18,11 @@ get('/nyheter') do
 end
 
 get('/kontakt') do
-    slim(:contact)
+    db = SQLite3::Database.new("db/kontakter.db")
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM employees")
+    p result 
+    slim(:"contact",locals:{employees:result})
 end
 
 get('/showlogin') do
