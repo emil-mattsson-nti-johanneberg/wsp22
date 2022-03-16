@@ -20,6 +20,8 @@ get('/kontakt') do
     db.results_as_hash = true
     result = db.execute("SELECT * FROM employees")
     slim(:contact)
+    p result 
+    slim(:"contact",locals:{employees:result})
 end
 
 get('/showlogin') do
