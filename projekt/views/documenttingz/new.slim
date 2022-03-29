@@ -2,3 +2,11 @@ form action="/documenttingz/new" method="POST"
     input type="text" name="docTitle" placeholder="Titel på dokument"
     input type="text" name="docLink" placeholder="Länk till Google doc"
     input type="submit" value="lägg till dokument"
+
+ul
+  - documents.each do |nyhet|
+    li 
+      a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}
+      form method="POST" action="/documenttingz/#{nyhet['docId']}/delete"
+        input type="submit" value="Delete"
+      

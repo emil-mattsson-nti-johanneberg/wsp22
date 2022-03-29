@@ -11,15 +11,20 @@ get('/nyheter') do
     db = SQLite3::Database.new("db/chinook-crud.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM albums")
-    p result 
-    slim(:"nyheter/index",locals:{nyheter:result})
+    slim(:"nyheter/index",locasl:{news:result})
+end
+
+get('/lag') do
+  db = SQLite3::Database.new("db/kontakter.db")
+  db.results_as_hash = true
+  result = db.execute("SELECT * FROM teams")
+  slim(:"lag",locals:{teams:result})
 end
 
 get('/kontakt') do
     db = SQLite3::Database.new("db/kontakter.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM employees")
-    p result 
     slim(:"contact",locals:{employees:result})
 end
 
@@ -42,7 +47,7 @@ end
 post('/login') do
     username = params[:username]
     password = params[:password]
-    db = SQLite3::Database.new('db/')
+    db = SQLite3::Database.new('db/kontakter.db')
     db.results_as_hash = true
     result = db.execute("SELECT * FROM users WHERE username = ?",username).first
     if result.empty?
@@ -53,16 +58,11 @@ post('/login') do
   
     if BCrypt::Password.new(pwdigest) == password
       session[:id] = id
-      redirect('/documents')
+      redirect('/')
     else
       "FEL LÖSENORD!"
     end
 end
-
-
-
-
-
 
 post('/users/new') do
     username = params[:username]
@@ -72,8 +72,8 @@ post('/users/new') do
     if (password == password_confirm)
       #lägg till användare
       password_digest = BCrypt::Password.create(password)
-      db = SQLite3::Database.new('')
-      db.execute('INSERT INTO users (username,pwdigest) VALUES (?,?)',username,password_digest)
+      db = SQLite3::Database.new('db/kontakter.db')
+      db.execute('INSERT INTO users (username,password_digest) VALUES (?,?)',username,password_digest)
       redirect('/')
     else
       #felhantering
@@ -89,13 +89,15 @@ get('/documenttingz') do
 end
 
 get('/documenttingz/new') do
-  slim(:"documenttingz/new")
+  db = SQLite3::Database.new("db/kontakter.db")
+  db.results_as_hash = true
+  result = db.execute("SELECT * FROM documents")
+  slim(:"documenttingz/new",locals:{documents:result})
 end
 
 post('/documenttingz/new') do
   docTitle = params[:docTitle]
   docLink = params[:docLink]
-  p "Vi fick in datan #{docTitle} och #{docLink}"
   db = SQLite3::Database.new("db/kontakter.db")
   db.execute("INSERT INTO documents (docTitle, docLink) VALUES (?,?)", docTitle, docLink)
   redirect('/documenttingz')

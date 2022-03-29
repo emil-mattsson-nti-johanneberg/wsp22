@@ -2,10 +2,9 @@ h1 Dokument
 
 form action="/documenttingz/new"
     button type="submit" Redigera
-
+    
 ul
   - documents.each do |nyhet|
     li 
       a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}
-      form method="POST" action="documenttingz/#{nyhet['docId']}/delete"
-        input type="submit" value="Delete"
+      
