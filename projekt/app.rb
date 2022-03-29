@@ -19,7 +19,6 @@ get('/kontakt') do
     db = SQLite3::Database.new("db/kontakter.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM employees")
-    slim(:contact)
     p result 
     slim(:"contact",locals:{employees:result})
 end
@@ -99,5 +98,12 @@ post('/documenttingz/new') do
   p "Vi fick in datan #{docTitle} och #{docLink}"
   db = SQLite3::Database.new("db/kontakter.db")
   db.execute("INSERT INTO documents (docTitle, docLink) VALUES (?,?)", docTitle, docLink)
+  redirect('/documenttingz')
+end
+
+post('/documenttingz/:id/delete') do
+  id = params[:id].to_i
+  db = SQLite3::Database.new("db/kontakter.db")
+  db.execute("DELETE FROM documents WHERE DocId = ?",id)
   redirect('/documenttingz')
 end

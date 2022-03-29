@@ -7,3 +7,9 @@ p Besökstider:      Mån - Fre kl 10-16
 
 h1 kontaktpersoner
 
+- employees.each do |kontakt|
+    div 
+        h4 #{kontakt["Name"]}
+        p #{kontakt["Role"]}
+        p #{kontakt["Phone"]}
+        p #{kontakt["Email"]}

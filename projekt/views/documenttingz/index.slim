@@ -7,3 +7,5 @@ ul
   - documents.each do |nyhet|
     li 
       a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}
+      form method="POST" action="documenttingz/#{nyhet['docId']}/delete"
+        input type="submit" value="Delete"
