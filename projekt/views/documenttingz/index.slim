@@ -1,10 +1,16 @@
 h1 Dokument 
 
-form action="/documenttingz/new"
-    button type="submit" Redigera
-    
-ul
-  - documents.each do |nyhet|
-    li 
-      a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}
-      
+
+- if session[:id] == 2
+  form action="/documenttingz/new"
+      button type="submit" Redigera
+
+  ul
+    - documents.each do |nyhet|
+      li 
+        a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}
+- else
+  ul
+    - documents.each do |nyhet|
+      li 
+        a href="#{nyhet['docLink']}" #{nyhet["docTitle"]}

@@ -3,6 +3,8 @@ require 'slim'
 require 'sqlite3'
 require 'bcrypt'
 
+enable :sessions
+
 get('/') do
     slim(:start)
 end
@@ -11,7 +13,7 @@ get('/nyheter') do
     db = SQLite3::Database.new("db/chinook-crud.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM albums")
-    slim(:"nyheter/index",locasl:{news:result})
+    slim(:"nyheter/index",locals:{albums:result})
 end
 
 get('/lag') do
@@ -53,8 +55,8 @@ post('/login') do
     if result.empty?
       redirect('/error')
     end
-    pwdigest = result["pwdigest"]
-    id = result["id"]
+    pwdigest = result["password_digest"]
+    id = result["Id"]
   
     if BCrypt::Password.new(pwdigest) == password
       session[:id] = id
