@@ -1,0 +1,9 @@
+h1 Profil
+
+- if session[:id] == nil
+    form action="/showlogin"
+        button type="submit"Logga in
+    form action="/register"
+        button type="submit"Register
+- else 
+    h2 Användarnamn: #{users["username"]}

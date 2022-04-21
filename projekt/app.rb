@@ -38,9 +38,6 @@ get('/calender') do
     slim(:calender)
 end
 
-get('/profile') do
-    slim(:profile)
-end
 
 get('/register') do
   slim(:register)
@@ -110,4 +107,11 @@ post('/documenttingz/:id/delete') do
   db = SQLite3::Database.new("db/kontakter.db")
   db.execute("DELETE FROM documents WHERE DocId = ?",id)
   redirect('/documenttingz')
+end
+
+get('/profil') do
+  db = SQLite3::Database.new("db/kontakter.db")
+  db.results_as_hash = true
+  result = db.execute("SELECT username FROM users WHERE Id= ?",session[:id]).first
+  slim(:"profil/index",locals:{users:result})
 end
