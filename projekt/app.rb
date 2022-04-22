@@ -73,7 +73,7 @@ post('/users/new') do
       password_digest = BCrypt::Password.create(password)
       db = SQLite3::Database.new('db/kontakter.db')
       db.execute('INSERT INTO users (username,password_digest) VALUES (?,?)',username,password_digest)
-      redirect('/')
+      redirect('/login')
     else
       #felhantering
       "lösenordet är fel"
