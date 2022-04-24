@@ -1,11 +1,13 @@
 h1 Profil
-
 - if session[:id] == nil
     form action="/showlogin"
         button type="submit"Logga in
     form action="/register"
         button type="submit"Register
 - else 
-    h2 Användarnamn: #{users["username"]}
+    h2 Användarnamn: #{userinfo["username"]}
+    h2 Fullständigt namn: #{userinfo["fullname"]}
+    h2 Lag: #{userinfo["team"]}
+    h2 Ålder: #{userinfo["age"]}
     form action="/profil/edit"
         button type="submit"Redigera profil
