@@ -20,7 +20,19 @@ get('/lag') do
   db = SQLite3::Database.new("db/kontakter.db")
   db.results_as_hash = true
   result = db.execute("SELECT * FROM teams")
-  slim(:"lag/index",locals:{albums:result})
+  p result
+  slim(:"lag/index",locals:{teams:result})
+end
+
+get('/lag/:id') do 
+  id = params[:id].to_i
+  db = SQLite3::Database.new("db/kontakter.db")
+  db.results_as_hash = true
+  result = db.execute("SELECT userinfo.fullname FROM teams
+  INNER JOIN userinfo ON teams.teamName = userinfo.team
+  WHERE teamID =?",id)
+  p result
+  slim(:"lag/show",locals:{players:result})
 end
 
 get('/kontakt') do

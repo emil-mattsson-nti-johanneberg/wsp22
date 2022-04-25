@@ -6,7 +6,19 @@ h3 Ålder: #{userinfo["age"]}
 
 p Redigera uppgifter:
 form action="/profil/edit" method="post"
+        select name="team"
+                option value="P06" P06 
+                option value="P05" P05
+                option value="P17" P17
+                option value="HJ" HJ
+                option value="P19" P19
+                option value="Herr" Herr
+                option value="F06" F06
+                option value="F05" F05
+                option value="F17" F17 
+                option value="F19" F19 
+                option value="Dam" Dam
         input type="text" name="fullname" placeholder="fullständiga namn" value="#{userinfo['fullname']}"
-        input type="text" name="team" placeholder="lag du spelar i" value="#{userinfo['team']}"
+        /input type="text" name="team" placeholder="lag du spelar i" value="#{userinfo['team']}"
         input type="text" name="age" placeholder="ålder" value="#{userinfo['age']}"
         input type="submit" value="submit"
