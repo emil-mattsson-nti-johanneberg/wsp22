@@ -17,7 +17,7 @@ get('/nyheter') do
 end
 
 get('/lag') do
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   result = db.execute("SELECT * FROM teams")
   p result
@@ -26,7 +26,7 @@ end
 
 get('/lag/:id') do 
   id = params[:id].to_i
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   result = db.execute("SELECT userinfo.fullname FROM teams
   INNER JOIN userinfo ON teams.teamName = userinfo.team
@@ -36,7 +36,7 @@ get('/lag/:id') do
 end
 
 get('/kontakt') do
-    db = SQLite3::Database.new("db/kontakter.db")
+    db = SQLite3::Database.new("db/db.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM employees")
     slim(:"contact",locals:{employees:result})
@@ -57,7 +57,7 @@ end
 post('/login') do
     username = params[:username]
     password = params[:password]
-    db = SQLite3::Database.new('db/kontakter.db')
+    db = SQLite3::Database.new('db/db.db')
     db.results_as_hash = true
     result = db.execute("SELECT * FROM users WHERE username = ?",username).first
     if result.empty?
@@ -82,7 +82,7 @@ post('/users/new') do
     if (password == password_confirm)
       #lägg till användare
       password_digest = BCrypt::Password.create(password)
-      db = SQLite3::Database.new('db/kontakter.db')
+      db = SQLite3::Database.new('db/db.db')
       db.execute('INSERT INTO users (username,password_digest) VALUES (?,?)',username,password_digest)
       db.execute('INSERT INTO userinfo (username) VALUES (?)',username)
       redirect('/showlogin')
@@ -93,14 +93,14 @@ post('/users/new') do
 end
 
 get('/documenttingz') do
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   result = db.execute("SELECT * FROM documents")
   slim(:"documenttingz/index",locals:{documents:result})
 end
 
 get('/documenttingz/new') do
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   result = db.execute("SELECT * FROM documents")
   slim(:"documenttingz/new",locals:{documents:result})
@@ -109,20 +109,20 @@ end
 post('/documenttingz/new') do
   docTitle = params[:docTitle]
   docLink = params[:docLink]
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.execute("INSERT INTO documents (docTitle, docLink) VALUES (?,?)", docTitle, docLink)
   redirect('/documenttingz')
 end
 
 post('/documenttingz/:id/delete') do
   id = params[:id].to_i
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.execute("DELETE FROM documents WHERE DocId = ?",id)
   redirect('/documenttingz')
 end
 
 get('/profil') do
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   #result = db.execute("SELECT username FROM users WHERE userID= ?",session[:id]).first
   result = db.execute("SELECT * FROM userinfo WHERE userID= ?",session[:id]).first
@@ -130,7 +130,7 @@ get('/profil') do
 end
 
 get('/profil/edit') do
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   result = db.execute("SELECT * FROM userinfo WHERE userID= ?",session[:id]).first
   slim(:"profil/edit",locals:{userinfo:result})
@@ -140,7 +140,7 @@ post('/profil/edit') do
   fullname = params[:fullname]
   age = params[:age]
   team = params[:team]
-  db = SQLite3::Database.new("db/kontakter.db")
+  db = SQLite3::Database.new("db/db.db")
   db.results_as_hash = true
   #db.execute("INSERT INTO userinfo (fullname, age, team) VALUES (?,?,?)", fullname, age, team)
   db.execute("UPDATE userinfo SET fullname=?,age=?,team=? WHERE userID = ?",fullname,age,team,session[:id])
