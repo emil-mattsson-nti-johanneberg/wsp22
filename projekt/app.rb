@@ -60,7 +60,8 @@ post('/login') do
     db = SQLite3::Database.new('db/db.db')
     db.results_as_hash = true
     result = db.execute("SELECT * FROM users WHERE username = ?",username).first
-    if result.empty?
+    p result
+    if result == nil
       redirect('/error')
     end
     pwdigest = result["password_digest"]
@@ -88,7 +89,7 @@ post('/users/new') do
       redirect('/showlogin')
     else
       #felhantering
-      "lösenordet är fel"
+      "lösenorden matchar inte"
     end
 end
 
